@@ -22,17 +22,13 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-// Asset paths - pointing to /public/ folder for easy local replacement
-// You can replace these files in your public folder to update the mockup images!
+// Asset paths - pointing to local images
 const ASSETS = {
-  icon: "assets/images/schedule_app_icon_1777878762042.png",
-  hero: "mockups/hero.png",
-  attendance: "mockups/attendance.png",
-  schedule: "mockups/schedule.png",
-
-  heroFallback: "assets/images/hero_mockup_1777878780771.png",
-  attendanceFallback: "assets/images/attendance_screenshot_1777878800693.png",
-  scheduleFallback: "assets/images/schedule_screenshot_1777878819563.png",
+  logo: "/src/assets/images/logo.png", // Upload your logo here!
+  // Fallbacks to generated images if local ones aren't found
+  heroFallback: "/src/assets/images/hero_mockup_1777878780771.png",
+  attendanceFallback: "/src/assets/images/attendance_screenshot_1777878800693.png",
+  scheduleFallback: "/src/assets/images/schedule_screenshot_1777878819563.png",
 };
 
 const FEATURES = [
@@ -106,19 +102,15 @@ export default function App() {
     }
   };
 
-  const ImageWithFallback = ({ src, fallback, alt, className }: { src: string, fallback: string, alt: string, className?: string }) => {
-    return (
-      <img 
-        src={src} 
-        alt={alt} 
-        className={className} 
-        referrerPolicy="no-referrer"
-        onError={(e) => {
-          (e.target as HTMLImageElement).src = fallback;
-        }}
-      />
-    );
-  };
+  const MockupPlaceholder = ({ title, colorClass }: { title: string, colorClass: string }) => (
+    <div className={`w-full h-full bg-slate-50 flex flex-col p-6 items-center justify-center text-center`}>
+      <div className={`w-20 h-20 ${colorClass} rounded-2xl flex items-center justify-center mb-4 transition-transform hover:scale-110`}>
+        <Smartphone className="w-10 h-10 text-white" />
+      </div>
+      <div className="font-black text-slate-800 text-lg mb-2">{title}</div>
+      <div className="text-slate-400 text-xs font-bold uppercase tracking-widest">Interface Preview</div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 relative overflow-x-hidden">
@@ -130,8 +122,17 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
-                <Calendar className="w-6 h-6" />
+              <div className="w-10 h-10 overflow-hidden rounded-xl bg-slate-100 flex items-center justify-center shadow-md">
+                <img 
+                  src={ASSETS.logo} 
+                  alt="ScheduleApp Logo" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback if logo doesn't exist yet
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = '<div class="text-blue-600 font-black">S</div>';
+                  }}
+                />
               </div>
               <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800">ScheduleApp</span>
             </div>
@@ -216,7 +217,7 @@ export default function App() {
                 <div className="relative z-10 w-full max-w-[320px] aspect-[9/18] bg-slate-900 rounded-[3.5rem] p-3 shadow-2xl border-[8px] border-slate-800">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-slate-800 rounded-b-3xl z-20"></div>
                   <div className="w-full h-full bg-white rounded-[2.8rem] overflow-hidden flex flex-col relative">
-                    <ImageWithFallback src={ASSETS.hero} fallback={ASSETS.heroFallback} alt="App Mockup" className="w-full h-full object-cover" />
+                    <MockupPlaceholder title="Dashboard" colorClass="bg-blue-600" />
                   </div>
                 </div>
                 <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-blue-200/40 rounded-full -z-10 blur-3xl" />
@@ -324,7 +325,7 @@ export default function App() {
                     {...fadeIn}
                     className="w-full max-w-[220px] aspect-[9/18] bg-slate-900 rounded-[2.5rem] border-[4px] border-slate-700 shadow-2xl relative overflow-hidden mt-12"
                   >
-                    <ImageWithFallback src={ASSETS.attendance} fallback={ASSETS.attendanceFallback} alt="Attendance" className="w-full h-full object-cover" />
+                    <MockupPlaceholder title="Attendance" colorClass="bg-emerald-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
                   </motion.div>
                   <motion.div 
@@ -332,14 +333,14 @@ export default function App() {
                     transition={{ delay: 0.2 }}
                     className="w-full max-w-[240px] aspect-[9/18] bg-slate-900 rounded-[3rem] border-[8px] border-slate-800 shadow-2xl overflow-hidden"
                   >
-                    <ImageWithFallback src={ASSETS.hero} fallback={ASSETS.heroFallback} alt="Home" className="w-full h-full object-cover" />
+                    <MockupPlaceholder title="Home Screen" colorClass="bg-blue-600" />
                   </motion.div>
                   <motion.div 
                     {...fadeIn} 
                     transition={{ delay: 0.4 }}
                     className="w-full max-w-[220px] aspect-[9/18] bg-slate-900 rounded-[2.5rem] border-[4px] border-slate-700 shadow-2xl relative overflow-hidden mt-12"
                   >
-                    <ImageWithFallback src={ASSETS.schedule} fallback={ASSETS.scheduleFallback} alt="Schedule" className="w-full h-full object-cover" />
+                    <MockupPlaceholder title="Schedule" colorClass="bg-indigo-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
                   </motion.div>
                 </div>
@@ -440,7 +441,17 @@ export default function App() {
       <footer className="bg-white/70 backdrop-blur-md py-8 px-8 border-t border-blue-50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-             <div className="w-6 h-6 bg-blue-600 rounded-md flex items-center justify-center text-white text-[10px] font-bold">S</div>
+             <div className="w-6 h-6 rounded-md overflow-hidden bg-slate-100 flex items-center justify-center">
+                <img 
+                  src={ASSETS.logo} 
+                  alt="Logo" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerText = 'S';
+                  }}
+                />
+             </div>
             <span className="font-bold text-slate-900 text-sm tracking-tight">ScheduleApp</span>
           </div>
           
