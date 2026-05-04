@@ -25,14 +25,14 @@ import { useState } from "react";
 // Asset paths - pointing to /public/ folder for easy local replacement
 // You can replace these files in your public folder to update the mockup images!
 const ASSETS = {
-  icon: "/src/assets/images/schedule_app_icon_1777878762042.png",
-  hero: "/mockups/hero.png",         // Place your hero mockup here
-  attendance: "/mockups/attendance.png", // Place your attendance screen here
-  schedule: "/mockups/schedule.png",     // Place your schedule screen here
-  // Fallbacks to generated images if local ones aren't found
-  heroFallback: "/src/assets/images/hero_mockup_1777878780771.png",
-  attendanceFallback: "/src/assets/images/attendance_screenshot_1777878800693.png",
-  scheduleFallback: "/src/assets/images/schedule_screenshot_1777878819563.png",
+  icon: "assets/images/schedule_app_icon_1777878762042.png",
+  hero: "mockups/hero.png",
+  attendance: "mockups/attendance.png",
+  schedule: "mockups/schedule.png",
+
+  heroFallback: "assets/images/hero_mockup_1777878780771.png",
+  attendanceFallback: "assets/images/attendance_screenshot_1777878800693.png",
+  scheduleFallback: "assets/images/schedule_screenshot_1777878819563.png",
 };
 
 const FEATURES = [
